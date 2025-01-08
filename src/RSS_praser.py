@@ -1,5 +1,4 @@
 import feedparser
-from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
 def check_parse(rss_data,news,count):
@@ -21,7 +20,7 @@ def parse_feed(feed,news,count):
         data_format="%d %b %Y %H:%M:%S"
         feed_date=datetime.strptime(str_time,data_format).replace(tzinfo=timezone.utc)
         current_time = datetime.now(timezone.utc)
-        if timedelta(0) <= (current_time - feed_date) <= timedelta(days=100):
+        if timedelta(0) <= (current_time - feed_date) <= timedelta(days=1):
             news[count] = {
                 "Title": entry.title,
                 "Description": entry.get("summary", "No description available"),
