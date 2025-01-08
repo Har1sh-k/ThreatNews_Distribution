@@ -20,7 +20,7 @@ def parse_feed(feed,news,count):
         data_format="%d %b %Y %H:%M:%S"
         feed_date=datetime.strptime(str_time,data_format).replace(tzinfo=timezone.utc)
         current_time = datetime.now(timezone.utc)
-        if timedelta(0) <= (current_time - feed_date) <= timedelta(days=1):
+        if (current_time - feed_date) <= timedelta(days=1):
             news[count] = {
                 "Title": entry.title,
                 "Description": entry.get("summary", "No description available"),
