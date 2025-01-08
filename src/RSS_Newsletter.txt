@@ -1,0 +1,5 @@
+##ADD YOUR RSS LINKS HERE
+{ 
+    'Malwarebytes':'https://www.malwarebytes.com/blog/feed/index.xml',
+    'Check Point Research':'https://research.checkpoint.com/feed/',
+    }
