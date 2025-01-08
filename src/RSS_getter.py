@@ -15,15 +15,20 @@ news = defaultdict(lambda: {
         "Published_date": "",
         "Link": "",
     })
+error_stack=[]
 count=0
 for i in RSS_data:
     response = requests.get(RSS_data[i],headers=headers)
     url_data = response.text
 
     if response.status_code==200:
-        news,count=RSS_praser.check_parse(url_data,news,count)
+        result=RSS_praser.check_parse(url_data,news,count)
+        if result[0] is None:
+            error_stack.append(result[1])
+        else:
+            news, count = result 
     else:
-        print(response.status_code, i, RSS_data[i])
+        error_stack.append([response.status_code, i, RSS_data[i]])
 
-for i in news:print(news[i]["Published_date"])
+for i in news:print(news[i]["Published_date"], news[i]["Link"])
 #print(news)
