@@ -1,7 +1,9 @@
 import ast
 import requests
-import RSS_praser
 from collections import defaultdict
+
+import RSS_praser
+import status_logger
 
 with open('src/RSS_Newsletter.txt') as f:
     RSS_data = f.read()
@@ -30,5 +32,6 @@ for i in RSS_data:
     else:
         error_stack.append([response.status_code, i, RSS_data[i]])
 
+status_logger.debug_logger('info', f'Errors encounted {len(error_stack)}')
 for i in news:print(news[i]["Published_date"], news[i]["Link"])
 #print(news)

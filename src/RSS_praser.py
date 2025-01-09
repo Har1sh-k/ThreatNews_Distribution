@@ -1,15 +1,19 @@
 import feedparser
 from datetime import datetime, timedelta, timezone
 
+import status_logger
+
 def check_parse(rss_data,news,count):
     try:
         feed = feedparser.parse(rss_data)
         if feed.bozo:
+            status_logger.debug_logger('error',f"Feed parsing error for {feed.feed.title}: {feed.bozo_exception}")
             return None,feed.bozo_exception
         else:
-            print(f"RSS feed successfully parsed for {feed.feed.title}")
+            status_logger.debug_logger('info',f"RSS feed successfully parsed for {feed.feed.title}")
             news,count=parse_feed(feed,news,count)
     except Exception as e:
+        status_logger.debug_logger('error',f"Feed parsing error for {feed.feed.title}: {e}")
         return None,e
     return news,count
 
