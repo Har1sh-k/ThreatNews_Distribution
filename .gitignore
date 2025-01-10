@@ -169,3 +169,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+#gmail creds
+api_creds.json
+token_creds.json
