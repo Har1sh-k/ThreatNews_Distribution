@@ -1,0 +1,116 @@
+import gmail_utils
+import status_logger
+
+def parse_send_news(news):
+    status_logger.debug_logger('info',"Preparing to send mail")
+    creds_path = './api_creds.json' 
+    sender_email = "c2sr.und@gmail.com"
+    recipient_email = get_emails()
+    subject = "Last 24H"
+    body = parse_news(news)
+
+    gmail_utils.passer(creds_path,sender_email,recipient_email, subject, body)
+    
+def get_emails():
+    file_path="src/recipient_mails.txt"
+    try:
+        with open(file_path) as f:
+            raw_mails = f.read()
+        emails=raw_mails.split(";")
+        return emails
+    except Exception as e:
+        status_logger.debug_logger('error',f"Unable to email file: {e}")
+        return None
+
+    
+def parse_news(news):
+    email_body = """
+    <html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #f4f4f4;
+                }
+                .container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                .header {
+                    text-align: center;
+                    padding: 10px 0;
+                    color: #ffffff;
+                    background-color: #007bff;
+                    border-radius: 8px 8px 0 0;
+                }
+                .header h1 {
+                    margin: 0;
+                    font-size: 24px;
+                }
+                .news-item {
+                    margin: 15px 0;
+                    padding: 10px;
+                    border-bottom: 1px solid #ddd;
+                }
+                .news-item:last-child {
+                    border-bottom: none;
+                }
+                .news-title {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #007bff;
+                    text-decoration: none;
+                }
+                .news-description {
+                    font-size: 14px;
+                    margin: 10px 0;
+                    color: #555;
+                }
+                .news-link {
+                    font-size: 14px;
+                    color: #007bff;
+                    text-decoration: underline;
+                }
+                .footer {
+                    text-align: center;
+                    margin-top: 20px;
+                    font-size: 12px;
+                    color: #888;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>24Hours Newsletter</h1>
+                </div>
+    """
+
+    # Add each news item
+    for item in news.values():
+        email_body += f"""
+            <div class="news-item">
+                <a href="{item['Link']}" class="news-title" target="_blank">{item['Title']}</a>
+                <div class="news-description">{item['Description']}</div>
+                <div class="news-date"><strong>Published Date:</strong> {item['Published_date']}</div>
+            </div>
+        """
+
+    # Add footer
+    email_body += """
+                <div class="footer">
+                    This is an automated email. Please do not reply.
+                </div>
+            </div>
+        </body>
+    </html>
+    """
+
+    return email_body
+
