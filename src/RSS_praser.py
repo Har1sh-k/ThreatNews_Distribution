@@ -30,6 +30,8 @@ def parse_feed(feed,news,count):
                 "Description": entry.get("summary", "No description available"),
                 "Published_date": str_time,
                 "Link": entry.get("link","No link available"),
+                "Source": feed.feed.title,
+                "Summary": None
             }
             count+=1
     return news,count
