@@ -31,7 +31,6 @@ def llm_summarizer(news, web_ui_token):
     for k in news:
       summary =chat_with_model(news[k], web_ui_token)
       summary = summary["choices"][0]["message"]["content"]
-      #news[k]["Summary"] = summary.split("\n\n")[1]
       news[k]["Summary"] = summary
     return news
   except Exception as e:
