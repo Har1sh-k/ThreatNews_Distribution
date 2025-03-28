@@ -1,22 +1,28 @@
 import os
-from openai import OpenAI
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(
-  api_key=os.getenv("gpt_api_key"),
-)
 
-chat_completion = client.chat.completions.create(
-    messages=[
+def chat_with_model(token):
+    url = 'http://lambda-scalar.ad.und.edu:30000/api/chat/completions'
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Content-Type': 'application/json'
+    }
+    data = {
+      "model": "gemma:2b",
+      "messages": [
         {
-            "role": "user",
-            "content": "What is Machine Learning?",
+          "role": "user",
+          "content": "Why is the sky blue?"
         }
-    ],
-    model="gpt-4o-mini",
-)
+      ]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    return response.json()
 
-
-print(chat_completion)
+web_ui_token = os.getenv("WEB_UI_TOKEN")
+response = chat_with_model(web_ui_token)
+print(response)
