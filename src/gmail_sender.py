@@ -97,7 +97,7 @@ def parse_news(news):
         email_body += f"""
             <div class="news-item">
                 <a href="{item['Link']}" class="news-title" target="_blank">{item['Title']}</a>
-                <div class="news-description">{item['Description']}</div>
+                <div class="news-description">{item['Summary']}</div>
                 <div class="news-date"><strong>Published Date:</strong> {item['Published_date']}</div>
             </div>
         """

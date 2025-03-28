@@ -41,6 +41,8 @@ def get_NEWS(file_path):
                 error_stack.append([response.status_code, i, RSS_data[i]])
                 
         status_logger.debug_logger('info', f'Errors encounted {len(error_stack)}')
+        if news is None:
+            status_logger.debug_logger('info',f"No news to send")
         return news,error_stack
     except Exception as e:
         status_logger.debug_logger('error',f"Unable to open file: {e}")
