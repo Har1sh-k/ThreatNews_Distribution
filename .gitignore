@@ -174,3 +174,4 @@ cython_debug/
 api_creds.json
 token_creds.json
 src/recipient_mails.txt
+src/recipient_mails.txt
